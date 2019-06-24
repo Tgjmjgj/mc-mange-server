@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/super.css">
+    <link rel="icon" type="img/png" sizes="256x256" href="favicon.png">
+    <title>Server State</title>
+</head>
+
+<body>
+    <div id="page" class="container" style="visibility: hidden;">
+
+        <div class="logo">
+            <picture>
+                <img src="images/minecraft.png" />
+            </picture>
+        </div>
+        <div id="contentwrapper" class="toggle">
+
+            <div id="circle"></div>
+
+            <div id="stars">
+                <div class="star"></div>
+                <div class="star"></div>
+                <div class="star"></div>
+                <div id="shtngstarwrapper">
+                    <div id="shootingstar"></div>
+                </div>
+
+            </div>
+
+            <div>
+                <div class="cloud">
+                    <div class="cloudpart"></div>
+                    <div class="cloudpart"></div>
+                </div>
+                <div class="cloud">
+                    <div class="cloudpart"></div>
+                    <div class="cloudpart"></div>
+                </div>
+                <div class="cloud">
+                    <div class="cloudpart"></div>
+                    <div class="cloudpart"></div>
+                    <div class="cloudpart"></div>
+                </div>
+            </div>
+
+        </div>
+        <div class="status">
+            <h1>
+                Server status:
+                <span id="stat_id">ON</span>
+            </h1>
+        </div>
+    </div>
+    <div id="loader" style="visibility: visible;">
+            <div id="loading">SEARCH</div>
+            <div id="origin" class="grass cube">
+              <div class="face top"></div>
+              <div class="face bottom"></div>
+              <div class="face front"></div>
+              <div class="face back"></div>
+              <div class="face left"></div>
+              <div class="face right"></div>
+            </div>
+          </div>
+    <script src="bundle.js"></script>
+</body>
+
+</html>
