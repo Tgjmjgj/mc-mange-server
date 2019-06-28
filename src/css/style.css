@@ -1,27 +1,27 @@
 .container,
 body,
 html {
-    height: 100%
+    height: 100%;
 }
 
 @font-face {
     font-family: minecrafter;
-    src: url(../fonts/Minecrafter.Alt.ttf)
+    src: url(../fonts/Minecrafter.Alt.ttf);
 }
 
 .logo {
-    width: 60%
+    width: 60%;
 }
 
 .logo img {
-    width: 100%
+    width: 100%;
 }
 
 .container {
     display: flex;
     flex-flow: column;
     justify-content: center;
-    align-items: center
+    align-items: center;
 }
 
 .toggle {
@@ -35,40 +35,40 @@ html {
     background-color: #bae6ff;
     transition: background-color 1s;
     margin-top: 100px;
-    margin-bottom: 100px
+    margin-bottom: 100px;
 }
 
 .cube,
 .face {
     width: 150px;
-    height: 150px
+    height: 150px;
 }
 
 #loading,
 .cube {
-    transition: all .75s ease
+    transition: all .75s ease;
 }
 
 .status {
     font-family: minecrafter;
     font-size: 1.5rem;
-    color: #3C3C3C
+    color: #3C3C3C;
 }
 
 .status span {
-    color: transparent
+    color: transparent;
 }
 
 .status span.off {
-    color: red
+    color: red;
 }
 
 .status span.pending {
-    color: #ff0
+    color: #ff0;
 }
 
 .status span.on {
-    color: green
+    color: green;
 }
 
 #loader {
@@ -76,47 +76,47 @@ html {
     background-repeat: no-repeat;
     background-attachment: fixed;
     overflow: hidden;
-    perspective: 1000px
+    perspective: 1000px;
 }
 
 .cube {
     position: relative;
     margin: calc(45vh - 150px) auto;
     transform-style: preserve-3d;
-    transform: rotateX(-15deg) rotateY(45deg)
+    transform: rotateX(-15deg) rotateY(45deg);
 }
 
 #loader,
 .face {
-    position: absolute
+    position: absolute;
 }
 
 .face {
-    box-sizing: border-box
+    box-sizing: border-box;
 }
 
 .face.top {
-    transform: rotateY(180deg) rotateX(90deg) translate3d(0, 0, 75px)
+    transform: rotateY(180deg) rotateX(90deg) translate3d(0, 0, 75px);
 }
 
 .face.bottom {
-    transform: rotateY(180deg) rotateX(90deg) translate3d(0, 0, -75px)
+    transform: rotateY(180deg) rotateX(90deg) translate3d(0, 0, -75px);
 }
 
 .face.front {
-    transform: translate3d(0, 0, 75px)
+    transform: translate3d(0, 0, 75px);
 }
 
 .face.back {
-    transform: translate3d(0, 0, -75px)
+    transform: translate3d(0, 0, -75px);
 }
 
 .face.left {
-    transform: rotateY(90deg) translate3d(0, 0, -75px)
+    transform: rotateY(90deg) translate3d(0, 0, -75px);
 }
 
 .face.right {
-    transform: rotateY(90deg) translate3d(0, 0, 75px)
+    transform: rotateY(90deg) translate3d(0, 0, 75px);
 }
 
 .grass .back,
@@ -124,18 +124,18 @@ html {
 .grass .left,
 .grass .right {
     background: url(../images/block_side.jpg);
-    background-size: 100% 100%
+    background-size: 100% 100%;
 }
 
 .grass .top {
     background: url(../images/block_top.jpg);
-    background-size: 100% 100%
+    background-size: 100% 100%;
 }
 
 .grass .bottom {
     background: url(../images/block_bottom.jpg);
     background-size: 100% 100%;
-    text-align: center
+    text-align: center;
 }
 
 #origin {
@@ -146,14 +146,15 @@ html {
     animation-iteration-count: infinite;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
-    animation-timing-function: linear
+    animation-timing-function: linear;
+    z-index: 5;
 }
 
 #loader {
     top: 0;
     left: 0;
     width: 100vw;
-    height: 100vh
+    height: 100vh;
 }
 
 #loading {
@@ -170,15 +171,15 @@ html {
     animation-iteration-count: infinite;
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
-    animation-timing-function: linear
+    animation-timing-function: linear;
 }
 
 @keyframes spin {
     from {
-        transform: rotateX(-3deg) rotateY(0)
+        transform: rotateX(-3deg) rotateY(0);
     }
 
     to {
-        transform: rotateX(-3deg) rotateY(360deg)
+        transform: rotateX(-3deg) rotateY(360deg);
     }
 }
