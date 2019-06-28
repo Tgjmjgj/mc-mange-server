@@ -25,6 +25,6 @@ action "Deploy to GitHub Pages" {
   needs = ["Build"]
   secrets = ["GH_PAT"]
   env = {
-    BUILD_DIR = "dist/"
+    BUILD_DIR = "deploy/"
   }
 }
