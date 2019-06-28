@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/Tgjmjgj/mc-mange-server/issues"
   },
-  "homepage": "https://github.com/Tgjmjgj/mc-mange-server#readme"
+  "homepage": "https://github.com/Tgjmjgj/mc-mange-server#readme",
+  "devDependencies": {
+    "webpack": "^4.35.0",
+    "webpack-dev-server": "^3.7.2"
+  }
 }
