@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
+  mode: 'development',
   context: path.resolve(__dirname, 'src'),
   entry: {
     index: './index.js',
@@ -40,7 +41,7 @@ module.exports = {
         use: ['style-loader', 'css-loader'],
       },
       {
-        test: /\.(png|jpg|gif|svg)$/,
+        test: /\.(png|jpe?g|gif|svg)$/,
         use: [{
           loader: 'file-loader',
           options: {
@@ -68,7 +69,7 @@ module.exports = {
       filename: 'index.html',
     }),
     new OpenBrowserPlugin({
-      url: 'http://localhost:8787'
+      url: 'http://localhost:8787',
     }),
   ],
 };
