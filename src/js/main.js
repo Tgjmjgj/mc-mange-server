@@ -2,16 +2,17 @@
 
 const backgroundUpdateInterval = 10000;
 const changeStatusWaitInterval = 1000;
+const loaderMinTime = 2000;
 
 const serverIp = '18.200.47.55';
 const apiEndpoint = 'https://qavsxtj4cf.execute-api.eu-west-1.amazonaws.com/production/server';
 const secret = 'f3KHNZlRQB9s4jSuiRKocafML7sQWwp41A7TXXEL';
-const servStatusEndpoint = `https://mcapi.xdefcon.com/server/${serverIp}/status/json`;
+const servStatusEndpoint = `https://api.minetools.eu/ping/${serverIp}`;
 
 async function isOnline() {
   const response = await fetch(servStatusEndpoint);
   const data = await response.json();
-  return data.online === 'true' || data.serverStatus === 'online';
+  return !data.error;
 }
 const responseParams = {
   method: 'GET',
@@ -55,6 +56,20 @@ window.addEventListener('load', async () => {
         sliderContainer.classList.add('off');
         document.body.style.backgroundColor = 'rgb(10, 11, 31)';
         break;
+      case 'pending':
+        stateBlock.classList = [];
+        stateBlock.classList.add('pending');
+        stateBlock.innerText = 'pending';
+        document.body.style.transition = 'background-color 3s';
+        document.body.style.backgroundColor = 'rgba(222, 222, 178, .82)';
+        break;
+      case 'stopping':
+        stateBlock.classList = [];
+        stateBlock.classList.add('stopping');
+        stateBlock.innerText = 'stopping';
+        document.body.style.transition = 'background-color 3s';
+        document.body.style.backgroundColor = 'rgba(222, 222, 178, .82)';
+        break;
       default:
         break;
     }
@@ -78,12 +93,18 @@ window.addEventListener('load', async () => {
       clearInterval(timer);
     }
   };
-
+  const loadTime = new Date();
   const online = await isOnline();
-  updateStatusOnPage(online ? 'online' : 'offline');
-  loader.style.visibility = 'hidden';
-  page.style.visibility = 'visible';
-
+  const passedTime = new Date() - loadTime;
+  const elapsedTime = loaderMinTime - passedTime;
+  if (elapsedTime < 0) {
+    elapsedTime = 0;
+  }
+  setTimeout(() => {
+    updateStatusOnPage(online ? 'online' : 'offline');
+    loader.style.display = 'none';
+    page.style.visibility = 'visible';
+  }, elapsedTime);
 
   sliderContainer.addEventListener('click', async function changeServerState() {
     const disableClick = () => {
@@ -105,7 +126,7 @@ window.addEventListener('load', async () => {
     if (actualOnline === false) {
       const successful = await startServer();
       if (successful) {
-        document.body.backgroundColor = 'yellow';
+        updateStatusOnPage('pending');
         const waitTimer = setInterval(async() => {
           const currentOnlineStatus = await isOnline();
           if (currentOnlineStatus === true) {
@@ -117,9 +138,9 @@ window.addEventListener('load', async () => {
         }, changeStatusWaitInterval);
       }
     } else {
-      const successful = await startServer();
+      const successful = await stopServer();
       if (successful) {
-        document.body.backgroundColor = 'yellow';
+        updateStatusOnPage('stopping');
         const waitTimer = setInterval(async() => {
           const currentInstanceState = await getInstanceState();
           if (currentInstanceState === 'stopped') {

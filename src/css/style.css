@@ -10,7 +10,7 @@ html {
 }
 
 .logo {
-    width: 60%;
+    width: 55%;
 }
 
 .logo img {
@@ -25,7 +25,6 @@ html {
 }
 
 .toggle {
-    cursor: pointer;
     width: 270px;
     height: 120px;
     border-radius: 70px;
@@ -36,6 +35,9 @@ html {
     transition: background-color 1s;
     margin-top: 100px;
     margin-bottom: 100px;
+}
+.clickable {
+    cursor: pointer;
 }
 
 .cube,
@@ -51,22 +53,22 @@ html {
 
 .status {
     font-family: minecrafter;
-    font-size: 1.5rem;
+    font-size: 4.3rem;
+    text-align: center;
     color: #3C3C3C;
 }
-
-.status span {
+.status span:nth-child(2) {
     color: transparent;
 }
-
 .status span.off {
     color: red;
 }
-
 .status span.pending {
-    color: #ff0;
+    color: rgb(208, 166, 5);
 }
-
+.status span.stopping {
+    color: rgba(56, 14, 14, .66);
+}
 .status span.on {
     color: green;
 }
