@@ -96,7 +96,7 @@ window.addEventListener('load', async () => {
   const loadTime = new Date();
   const online = await isOnline();
   const passedTime = new Date() - loadTime;
-  const elapsedTime = loaderMinTime - passedTime;
+  let elapsedTime = loaderMinTime - passedTime;
   if (elapsedTime < 0) {
     elapsedTime = 0;
   }
