@@ -1,120 +1,135 @@
 'use strict';
-  
-// class Ping {
-//   constructor(options) {
-//     this.opt = options || {};
-//     this.favicon = this.opt.favicon || 'favicon.ico';
-//     this.timeout = this.opt.timeout || 0;
-//   }
-//   ping(ipAddress, callback) {
-//     let timer = null;
-//     const image = new Image();
-//     const startTime = new Date();
 
-//     function recieveResponse(e) {
-//       if (timer) {
-//         clearTimeout(timer);
-//         image.onload = null;
-//         image.onerror = null;
-//       }
-//       const endTime = new Date();
-//       const pingVal = endTime - startTime;
-//       if (typeof callback === 'function') {
-//         if (e.type === 'error') {
-//           console.log('Server not responding');
-//           callback('error', pingVal);
-//         } else {
-//           callback(null, pingVal); 
-//         }
-//       }
-//     }
+const backgroundUpdateInterval = 10000;
+const changeStatusWaitInterval = 1000;
 
-//     image.onload = recieveResponse;
-//     image.onerror = recieveResponse;
-//     if (this.timeout) {
-//       timer = setTimeout(ping, this.timeout);
-//       image.src = `${ipAddress}/${this.favicon}?${new Date()}`;
-//     }
-//   }
-// }
-// // o.r(e);
-// // var n = o(0);
-// const apiEndpoint = 'https://dqbth38up2.execute-api.eu-west-1.amazonaws.com/default/manage-minecraft-server/';
-// const secret = '2bhMntUOY59j4VAZ2wmLya30M9ty3S5x2qTxEstt';
-// const serverAddress = 'http://34.255.56.75';
-// const pingUtil = new Ping({
-//   timeout: 5500
-// });
-// const loader = document.getElementById('loader');
-// const page = document.getElementById('page');
-// const stateBlock = document.getElementById('stat_id');
-// const sliderContainer = document.getElementById('contentwrapper');
+const serverIp = '18.200.47.55';
+const apiEndpoint = 'https://qavsxtj4cf.execute-api.eu-west-1.amazonaws.com/production/server';
+const secret = 'f3KHNZlRQB9s4jSuiRKocafML7sQWwp41A7TXXEL';
+const servStatusEndpoint = `https://mcapi.xdefcon.com/server/${serverIp}/status/json`;
 
-// function f() {
-//   pingUtil.ping(serverAddress, function (type, time) {
-//     if (parseInt(time) < 5e3) {
-//       if (!stateBlock.classList.contains('on')) {
-//         stateBlock.classList = [];
-//         stateBlock.classList.add('on');
-//         stateBlock.innerText = 'on';
-//         if (sliderContainer.classList.contains('off')) {
-//           document.body.style.backgroundColor = 'rgb(135, 206, 250)';
-//           sliderContainer.classList.remove('off');
-//         }
-//       }
-//     } else {
-//       if (!stateBlock.classList.contains('off')) {
-//         stateBlock.classList = [];
-//         stateBlock.classList.add('off');
-//         stateBlock.innerText = 'off';
-//         if (!sliderContainer.classList.contains('off')) {
-//           document.body.style.backgroundColor = 'rgb(10, 11, 31)';
-//           sliderContainer.classList.add('off');
-//         }
-//       }
-//     }
-//   });
-// }
-// window.onload = (() => {
-//   pingUtil.ping(serverAddress, function (type, time) {
-//     if (parseInt(time) < 5000) {
-//       document.body.style.backgroundColor = 'rgb(135, 206, 250)';
-//       stateBlock.classList.add('on');
-//       stateBlock.innerText = 'on';
-//     } else {
-//       document.body.style.backgroundColor = 'rgb(10, 11, 31)';
-//       sliderContainer.classList.add('off');
-//       stateBlock.classList.add('off');
-//       stateBlock.innerText = 'off';
-//     }
-//     loader.style.visibility = 'hidden';
-//     page.style.visibility = 'visible';
-//     setInterval(f, 3000);
-//   });
-// });
-// sliderContainer.addEventListener('click', function changeServerState() {
-//   document.body.style.transition = 'background-color 2s';
-//   sliderContainer.removeEventListener('click', changeServerState);
-//   setTimeout(() => {
-//     sliderContainer.addEventListener('click', changeServerState);
-//   }, 20000);
-//   if (sliderContainer.classList.contains('off')) {
-//     fetch(apiEndpoint + 'start', {
-//       method: 'GET',
-//       headers: {
-//         'x-api-key': secret
-//       }
-//     });
-//     sliderContainer.classList.remove('off');
-//     document.body.style.backgroundColor = 'rgb(135, 206, 250)';
-//   } else {
-//     fetch(apiEndpoint + 'stop', {
-//       method: 'GET',
-//       headers: {
-//         'x-api-key': secret
-//       }
-//     });
-//     sliderContainer.classList.add('off');
-//     document.body.style.backgroundColor = 'rgb(10, 11, 31)';
-//   }
-// });
+async function isOnline() {
+  const response = await fetch(servStatusEndpoint);
+  const data = await response.json();
+  return data.online === 'true' || data.serverStatus === 'online';
+}
+const responseParams = {
+  method: 'GET',
+  headers: {
+    'x-api-key': secret,
+  },
+};
+async function getInstanceState() {
+  const response = await fetch(`${apiEndpoint}/state`, responseParams);
+  const data = await response.json();
+  return data.state;
+}
+
+async function doSmthgWithServer(cmd) {
+  const response = await fetch(`${apiEndpoint}/${cmd}`, responseParams);
+  const isOk = await response.text();
+  return isOk === 'true';
+}
+const startServer = async() => await doSmthgWithServer('start');
+const stopServer = async() => await doSmthgWithServer('stop');
+
+window.addEventListener('load', async () => {
+  const loader = document.getElementById('loader');
+  const page = document.getElementById('page');
+  const stateBlock = document.getElementById('stat_id');
+  const sliderContainer = document.getElementById('contentwrapper');
+
+  const updateStatusOnPage = (newStatus) => {
+    switch (newStatus) {
+      case 'online':
+        stateBlock.classList = [];
+        stateBlock.classList.add('on');
+        stateBlock.innerText = 'on';
+        sliderContainer.classList.remove('off');
+        document.body.style.backgroundColor = 'rgb(135, 206, 250)';
+        break;
+      case 'offline':
+        stateBlock.classList = [];
+        stateBlock.classList.add('off');
+        stateBlock.innerText = 'off';
+        sliderContainer.classList.add('off');
+        document.body.style.backgroundColor = 'rgb(10, 11, 31)';
+        break;
+      default:
+        break;
+    }
+  };
+  const toggleStatusOnPage = () => {
+    if (sliderContainer.classList.contains('off')) {
+      updateStatusOnPage('online');
+    } else {
+      updateStatusOnPage('offline');
+    }
+  }
+  let timer = null;
+  const runBackgroundCheck = () => {
+    timer = setInterval(async() => {
+      const online = await isOnline();
+      updateStatusOnPage(online ? 'online' : 'offline');
+    }, backgroundUpdateInterval);
+  };
+  const stopBackgroundCheck = () => {
+    if (timer) {
+      clearInterval(timer);
+    }
+  };
+
+  const online = await isOnline();
+  updateStatusOnPage(online ? 'online' : 'offline');
+  loader.style.visibility = 'hidden';
+  page.style.visibility = 'visible';
+
+
+  sliderContainer.addEventListener('click', async function changeServerState() {
+    const disableClick = () => {
+      sliderContainer.removeEventListener('click', changeServerState);
+      sliderContainer.classList.remove('clickable');
+    }
+    const enableClick = () => {
+      sliderContainer.addEventListener('click', changeServerState);
+      sliderContainer.classList.add('clickable');
+    }
+    disableClick();
+    stopBackgroundCheck();
+    const actualOnline = await isOnline();
+    const onlineOnPage = !sliderContainer.classList.contains('off');
+    if (actualOnline !== onlineOnPage) {
+      toggleStatusOnPage();
+      return;
+    }
+    if (actualOnline === false) {
+      const successful = await startServer();
+      if (successful) {
+        document.body.backgroundColor = 'yellow';
+        const waitTimer = setInterval(async() => {
+          const currentOnlineStatus = await isOnline();
+          if (currentOnlineStatus === true) {
+            clearInterval(waitTimer);
+            enableClick();
+            updateStatusOnPage('online');
+            runBackgroundCheck();
+          }
+        }, changeStatusWaitInterval);
+      }
+    } else {
+      const successful = await startServer();
+      if (successful) {
+        document.body.backgroundColor = 'yellow';
+        const waitTimer = setInterval(async() => {
+          const currentInstanceState = await getInstanceState();
+          if (currentInstanceState === 'stopped') {
+            clearInterval(waitTimer);
+            enableClick();
+            updateStatusOnPage('offline');
+            runBackgroundCheck();
+          }
+        }, changeStatusWaitInterval);
+      }
+    }
+  });
+});
