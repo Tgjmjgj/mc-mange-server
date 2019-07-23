@@ -7,12 +7,14 @@ const loaderMinTime = 2000;
 const serverIp = '18.200.47.55';
 const apiEndpoint = 'https://qavsxtj4cf.execute-api.eu-west-1.amazonaws.com/production/server';
 const secret = 'f3KHNZlRQB9s4jSuiRKocafML7sQWwp41A7TXXEL';
-const servStatusEndpoint = `https://api.minetools.eu/ping/${serverIp}`;
+// First server has stop working
+// const servStatusEndpoint = `https://api.minetools.eu/ping/${serverIp}`;
+const servStatusEndpoint = `https:/api.mcsrvstat.us/2/${serverIp}`;
 
 async function isOnline() {
   const response = await fetch(servStatusEndpoint);
   const data = await response.json();
-  return !data.error;
+  return data.online;
 }
 const responseParams = {
   method: 'GET',
