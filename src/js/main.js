@@ -9,7 +9,7 @@ const apiEndpoint = 'https://qavsxtj4cf.execute-api.eu-west-1.amazonaws.com/prod
 const secret = 'f3KHNZlRQB9s4jSuiRKocafML7sQWwp41A7TXXEL';
 // First server has stop working
 // const servStatusEndpoint = `https://api.minetools.eu/ping/${serverIp}`;
-const servStatusEndpoint = `https:/api.mcsrvstat.us/2/${serverIp}`;
+const servStatusEndpoint = `https://api.mcsrvstat.us/2/${serverIp}`;
 
 async function isOnline() {
   console.log(`Request to ${servStatusEndpoint}`);
@@ -17,7 +17,6 @@ async function isOnline() {
     mode: 'cors',
     method: 'GET',
   });
-  console.log(`Response:`);
   console.log(response);
   const data = await response.json();
   return data.online;

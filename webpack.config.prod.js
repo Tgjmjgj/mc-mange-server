@@ -18,11 +18,11 @@ module.exports = {
   },
   module: {
     rules: [{
-      //   test: /\.js$/,
-      //   exclude: /node_modules/,
-      //   loader: 'babel-loader',
-      // },
-      // {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+      {
         test: /\.html$/,
         use: [{
           loader: 'html-loader',
@@ -96,11 +96,11 @@ module.exports = {
   ],
   optimization: {
     minimizer: [
-      // new UglifyJsPlugin({
-      //   cache: true,
-      //   parallel: true,
-      //   sourceMap: true,
-      // }),
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        sourceMap: true,
+      }),
       new OptimizeCssAssetsPlugin({}),
     ],
   },
