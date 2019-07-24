@@ -14,7 +14,7 @@ module.exports = {
   output: {
     filename: 'bundle.[hash:5].js',
     path: path.resolve(__dirname, 'deploy'),
-    publicPath: '',
+    publicPath: '/',
   },
   module: {
     rules: [{
