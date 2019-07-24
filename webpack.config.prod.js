@@ -6,7 +6,7 @@ const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  mode: 'production',
+  mode: 'development ',
   context: path.resolve(__dirname, 'src'),
   entry: {
     index: './index.js',
@@ -14,7 +14,7 @@ module.exports = {
   output: {
     filename: 'bundle.[hash:5].js',
     path: path.resolve(__dirname, 'deploy'),
-    publicPath: '/',
+    publicPath: '',
   },
   module: {
     rules: [{
