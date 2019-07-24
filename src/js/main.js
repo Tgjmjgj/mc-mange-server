@@ -12,6 +12,7 @@ const secret = 'f3KHNZlRQB9s4jSuiRKocafML7sQWwp41A7TXXEL';
 const servStatusEndpoint = `https:/api.mcsrvstat.us/2/${serverIp}`;
 
 async function isOnline() {
+  console.log(`Request to ${servStatusEndpoint}`);
   const response = await fetch(servStatusEndpoint);
   const data = await response.json();
   return data.online;
