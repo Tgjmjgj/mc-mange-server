@@ -17,7 +17,6 @@ async function isOnline() {
     mode: 'cors',
     method: 'GET',
   });
-  console.log(response);
   const data = await response.json();
   return data.online;
 }
