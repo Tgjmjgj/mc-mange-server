@@ -14,6 +14,8 @@ const servStatusEndpoint = `https:/api.mcsrvstat.us/2/${serverIp}`;
 async function isOnline() {
   console.log(`Request to ${servStatusEndpoint}`);
   const response = await fetch(servStatusEndpoint);
+  console.log(`Response:`);
+  console.log(response);
   const data = await response.json();
   return data.online;
 }
